@@ -14,5 +14,5 @@ Clone this repo or direct download script by wget and make sure you install all 
 *<a href="https://github.com/Triple_Hat">GitHub</a>*<br>
 *<a href="https://instagram.com/wh0ami_1">Instagram</a>*<br>
 *<a href="https://TripleHat.github.io">TripleHat_Page</a>*<br>
-# Sample
+# DEMO
 <img src="Demo.png">
