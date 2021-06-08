@@ -1,7 +1,7 @@
 # NIDA
 Get User info by NIN
 
-<p> This Script is created by <a href="https://github.com/TripleHat">TripleHat</a>, I motivated by <a href="https://github.com/kalebu">Kalebu</a> </p>
+<p> This Script is coded by <a href="https://github.com/TripleHat">TripleHat</a>, and I get motivated by <a href="https://github.com/kalebu">Kalebu</a>. You may check his Repo here 👉 <a href="https://github.com/Kalebu/Nida">NIDA</a> </p>
 
 # Installation
 Clone this repo or direct download script by wget and make sure you install all needed modules<br>
@@ -14,5 +14,9 @@ Clone this repo or direct download script by wget and make sure you install all 
 *<a href="https://github.com/Triple_Hat">GitHub</a>*<br>
 *<a href="https://instagram.com/wh0ami_1">Instagram</a>*<br>
 *<a href="https://TripleHat.github.io">TripleHat_Page</a>*<br>
+## Features
+[√] Shows All Info<br>
+[√] Picture and Signature are in forms of link<br>
+[√] Beautiful preview with Table<br>
 # DEMO
 <img src="Demo.png">
