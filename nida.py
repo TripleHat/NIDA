@@ -142,4 +142,5 @@ def nida():
     clean()
 
 
-nida()
+if __name__ == '__main__':
+    nida()
