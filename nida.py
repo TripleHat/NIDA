@@ -31,6 +31,12 @@ def nida():
     url = "https://ors.brela.go.tz/um/load/load_nida/"
     num = input(green + "Enter NIN: " + cyan)
 
+    # replace all - with nothing to enable this to be numbers only
+    num = num.replace('-', '')
+
+    # strip any empty spaces around the number
+    num = num.strip()
+
     digit = num.isdigit()
     if str(len(num)) < str("20"):
         print(red + "\nNIN is wrong\n" + close)
