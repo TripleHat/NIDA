@@ -5,10 +5,7 @@ Get User info by NIN
 
 # Installation
 Clone this repo or direct download script by wget and make sure you install all needed modules<br>
-<br>*pip install prettytable*
-<br>*pip install requests*
-<br>*pip install base64*
-<br>*pip install Pillow*
+<br>pip install -r requirements.txt
 # Get Me
 *<a href="https://twitter.com/Triple_Hat">Twitter</a>*<br>
 *<a href="https://github.com/Triple_Hat">GitHub</a>*<br>
