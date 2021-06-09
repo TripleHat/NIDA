@@ -39,10 +39,10 @@ def nida():
 
     digit = num.isdigit()
     if str(len(num)) < str("20"):
-        print(red + "\nNIN is wrong\n" + close)
+        text_out(red + "\nNIN is wrong\n" + close)
         exit()
     if not digit:
-        print(red + "\nNIN cant contain letters\n" + close)
+        text_out(red + "\nNIN cant contain letters\n" + close)
         exit()
 
     print(close + "")
@@ -75,7 +75,7 @@ def nida():
         sahihi = req2.text
 
     except:
-        print(
+        text_out(
             red + "\nERROR SOMETHING IS WRONG, Probably Internet Connection or Your NIN not Found In System\n" + close)
         exit()
 
