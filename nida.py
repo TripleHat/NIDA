@@ -50,9 +50,9 @@ def nida() -> None:
     print(close + "")
 
     # adding a global variable in case the try statement fails
-    results: Dict[str, Any] = {}
-    profile: str = ""
-    sahihi: str = ""
+    results: Dict[str, Any]
+    profile: str
+    sahihi: str
 
     headers: Dict[str, str] = {'Content-Type': 'application/json', 'Content-Length': '0'}
     try:
