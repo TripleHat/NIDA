@@ -5,31 +5,33 @@ import io
 import os
 import time
 
-import prettytable
+import prettytable # type: ignore
 import sys
 
 import requests
-from PIL import Image
+from PIL import Image # type: ignore
 
-yellow = '\033[33m'
-blue = '\033[34m'
-cyan = '\033[36m'
-green = '\033[32;1m'
-red = '\033[31;1m'
-close = '\033[0m'
+from typing import Dict, Any, BinaryIO
+
+yellow: str = '\033[33m'
+blue: str = '\033[34m'
+cyan: str = '\033[36m'
+green: str = '\033[32;1m'
+red: str = '\033[31;1m'
+close: str = '\033[0m'
 
 
-def text_out(text):
+def text_out(text: str) -> None:
     for character in text:
         sys.stdout.write(character)
         sys.stdout.flush()
         time.sleep(0.1)
 
 
-def nida():
+def nida() -> None:
     print("")
-    url = "https://ors.brela.go.tz/um/load/load_nida/"
-    num = input(green + "Enter NIN: " + cyan)
+    url: str = "https://ors.brela.go.tz/um/load/load_nida/"
+    num: str = input(green + "Enter NIN: " + cyan)
 
     # replace all - with nothing to enable this to be numbers only
     num = num.replace('-', '')
@@ -37,7 +39,7 @@ def nida():
     # strip any empty spaces around the number
     num = num.strip()
 
-    digit = num.isdigit()
+    digit: bool = num.isdigit()
     if str(len(num)) < str("20"):
         text_out(red + "\nNIN is wrong\n" + close)
         exit()
@@ -48,28 +50,35 @@ def nida():
     print(close + "")
 
     # adding a global variable in case the try statement fails
-    results = None
-    profile = None
-    sahihi = None
+    results: Dict[str, Any] = {}
+    profile: str = ""
+    sahihi: str = ""
+
+    headers: Dict[str, str] = {'Content-Type': 'application/json', 'Content-Length': '0'}
     try:
-        req = requests.post(url + str(num), headers={'Content-Type': 'application/json', 'Content-Length': '0'})
-        filter_ = req.json()
+        # TODO: refactor to use Union[str, int, float, bool, None]
+        # also use 3 json multi-layer representation for filter_
+        # instead of nested Dicts of course.
+        req: Any = requests.post(url + str(num), headers=headers)
+        filter_: Dict[str, Dict[str, Dict[str, Any]]] = req.json()
         results = filter_['obj']['result']
-        decode = base64.b64decode(results['PHOTO'])
-        img = Image.open(io.BytesIO(decode))
+        
+        # TODO: define Jpeg custom type
+        decode: bytes = base64.b64decode(results['PHOTO'])
+        img: Any = Image.open(io.BytesIO(decode))
         img.save(results['FIRSTNAME'] + '.jpg')
-        d_sig = base64.b64decode(results['SIGNATURE'])
-        sign = Image.open(io.BytesIO(d_sig))
+        d_sig: bytes = base64.b64decode(results['SIGNATURE'])
+        sign: Any = Image.open(io.BytesIO(d_sig))
         sign.save("signature" + results['FirstName'] + ".jpg")
 
-        picture = str(results['FirstName'] + ".jpg")
-        signature = str("signature" + results['FirstName'] + ".jpg")
+        picture: str = str(results['FirstName'] + ".jpg")
+        signature: str = str("signature" + results['FirstName'] + ".jpg")
 
-        pic = {'file': open(picture, "rb")}
-        sig = {'file': open(signature, "rb")}
+        pic: Dict[str, BinaryIO] = {'file': open(picture, "rb")}
+        sig: Dict[str, BinaryIO] = {'file': open(signature, "rb")}
 
-        req1 = requests.post("https://0x0.st", files=pic)
-        req2 = requests.post("https://0x0.st", files=sig)
+        req1: Any = requests.post("https://0x0.st", files=pic)
+        req2: Any = requests.post("https://0x0.st", files=sig)
 
         profile = req1.text
         sahihi = req2.text
@@ -79,37 +88,37 @@ def nida():
             red + "\nERROR SOMETHING IS WRONG, Probably Internet Connection or Your NIN not Found In System\n" + close)
         exit()
 
-    def clean():
+    def clean() -> None:
         os.system("rm " + picture)
         os.system("rm " + signature)
 
-    no = results['NIN']
-    name1 = results['FIRSTNAME']
-    name2 = results['MIDDLENAME']
-    name3 = results['SURNAME']
-    sex = results['SEX']
-    date = results['DATEOFBIRTH']
-    r_region = results['RESIDENTREGION']
-    r_district = results['RESIDENTDISTRICT']
-    r_ward = results['RESIDENTWARD']
-    r_village = results['RESIDENTVILLAGE']
-    r_street = results['RESIDENTSTREET']
-    r_postcode = results['RESIDENTPOSTCODE']
-    p_region = results['PERMANENTREGION']
-    pDistrict = results['PERMANENTDISTRICT']
-    pWard = results['PERMANENTWARD']
-    pVillage = results['PERMANENTVILLAGE']
-    pStreet = results['PERMANENTSTREET']
-    bCountry = results['BIRTHCOUNTRY']
-    bRegion = results['BIRTHREGION']
-    bDistrict = results['BIRTHDISTRICT']
-    bWard = results['BIRTHWARD']
-    nation = results['NATIONALITY']
-    mStatus = results['MARITALSTATUS']
-    work = results['OCCUPATION']
-    pSchool = results['PRIMARYSCHOOLEDUCATION']
-    pDistrict = results['PRIMARYSCHOOLDISTRICT']
-    pYear = results['PRIMARYSCHOOLYEAR']
+    no: str = results['NIN']
+    name1: str = results['FIRSTNAME']
+    name2: str = results['MIDDLENAME']
+    name3: str = results['SURNAME']
+    sex: str = results['SEX']
+    date: str = results['DATEOFBIRTH']
+    r_region: str = results['RESIDENTREGION']
+    r_district: str = results['RESIDENTDISTRICT']
+    r_ward: str = results['RESIDENTWARD']
+    r_village: str = results['RESIDENTVILLAGE']
+    r_street: str = results['RESIDENTSTREET']
+    r_postcode: str = results['RESIDENTPOSTCODE']
+    p_region: str = results['PERMANENTREGION']
+    pDistrict: str = results['PERMANENTDISTRICT']
+    pWard: str = results['PERMANENTWARD']
+    pVillage: str = results['PERMANENTVILLAGE']
+    pStreet: str = results['PERMANENTSTREET']
+    bCountry: str = results['BIRTHCOUNTRY']
+    bRegion: str = results['BIRTHREGION']
+    bDistrict: str = results['BIRTHDISTRICT']
+    bWard: str = results['BIRTHWARD']
+    nation: str = results['NATIONALITY']
+    mStatus: str = results['MARITALSTATUS']
+    work: str = results['OCCUPATION']
+    pSchool: str = results['PRIMARYSCHOOLEDUCATION']
+    pSDistrict: str = results['PRIMARYSCHOOLDISTRICT']
+    pYear: str = results['PRIMARYSCHOOLYEAR']
 
     t = prettytable.PrettyTable([red + "INFO" + close, red + "STATUS" + close])
     t.align[red + "INFO" + close] = "l"
@@ -139,7 +148,7 @@ def nida():
     t.add_row([green + "BIRTH DISTRICT" + close, cyan + str(bDistrict) + close])
     t.add_row([green + "BIRTH WARD" + close, cyan + str(bWard) + close])
     t.add_row([green + "PRIMARY SCHOOL" + close, cyan + str(pSchool) + close])
-    t.add_row([green + "PRIMARY SCHOOL DISTRICT" + close, cyan + str(pDistrict) + close])
+    t.add_row([green + "PRIMARY SCHOOL DISTRICT" + close, cyan + str(pSDistrict) + close])
     t.add_row([green + "PRIMARY SCHOOL YEAR" + close, cyan + str(pYear) + close])
     t.add_row(["", ""])
     t.add_row([green + "PICTURE" + close, cyan + profile + close])
