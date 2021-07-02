@@ -1,4 +1,5 @@
 # NIDA
+<img src="https://img.shields.io/github/stars/TripleHat/NIDA?style=for-the-badge">
 Get User info by NIN
 
 <p> This Script is coded by <a href="https://github.com/TripleHat">TripleHat</a>, and I get motivated by <a href="https://github.com/kalebu">Kalebu</a>. You may check his Repo here 👉 <a href="https://github.com/Kalebu/Nida">NIDA</a> </p>
