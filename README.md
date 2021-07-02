@@ -17,3 +17,7 @@ Clone this repo or direct download script by wget and make sure you install all 
 [√] Beautiful preview with Table<br>
 # DEMO
 <img src="Demo.png">
+
+## SUPPORTERS
+[![Stargazers repo roster for @TripleHat/NIDA](https://reporoster.com/stars/TripleHat/NIDA)](https://github.com/TripleHat/NIDA/stargazers)
+[![Forkers repo roster for @TripleHat/NIDA](https://reporoster.com/forks/TripleHat/NIDA)](https://github.com/TripleHat/NIDA/network/members)
